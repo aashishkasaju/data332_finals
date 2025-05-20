@@ -11,9 +11,9 @@ library(RColorBrewer)   # Additional discrete color palettes
 library(randomForest)   # Random forest modeling
 
 # Define raw GitHub URLs for CSV datasets
-cpi_url  <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/finals/data/us_cpi_inflation.csv"
-coli_url <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/finals/data/cost_of_living.csv"
-wage_url <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/finals/data/minimum_wage_data.csv"
+cpi_url  <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/data/us_cpi_inflation.csv"
+coli_url <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/data/cost_of_living.csv"
+wage_url <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/data/minimum_wage_data.csv"
 
 # Load & clean datasets
 cpi_clean <- read_csv(cpi_url) %>%
