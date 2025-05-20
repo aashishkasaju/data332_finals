@@ -112,21 +112,30 @@ install.packages(c(
 
 ## Loading & Cleaning Data
 ```r
-# CPI & inflation
+# Define raw GitHub URLs for CSV datasets
+cpi_url  <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/data/us_cpi_inflation.csv"
+coli_url <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/data/cost_of_living.csv"
+wage_url <- "https://raw.githubusercontent.com/aashishkasaju/data332_finals/main/data/minimum_wage_data.csv"
+
+# Load & clean datasets
 cpi_clean <- read_csv(cpi_url) %>%
   mutate(Year = year(Date)) %>%
   group_by(Year) %>%
-  summarize(CPI = mean(Index), Inflation = mean(Inflation)) %>%
-  filter(Year >= 2004)
+  summarize(
+    CPI       = mean(Index, na.rm = TRUE),
+    Inflation = mean(Inflation, na.rm = TRUE),
+    .groups   = "drop"
+  ) %>%
+  filter(Year >= 2004, Year <= 2014)
+cpi_ref <- cpi_clean %>% filter(Year == 2014) %>% pull(CPI)
 
-# COLI
 coli_clean <- read_csv(coli_url) %>%
   select(abb = State, COLI = Conversion) %>%
   mutate(State = state.name[match(abb, state.abb)]) %>%
-  select(State, COLI)
+  select(-abb)
 
-# Minimum wage
 min_wage_data <- read_csv(wage_url)
+states_map    <- map_data("state")
 ```
 
 ---
@@ -152,8 +161,10 @@ rf_mod <- randomForest(Real_Wage ~ COLI, data=scatter_df, ntree = 100)
 
 ---
 
-## Presentation Notes
-- Live demo of the Shiny app—no PowerPoint.  
-- Dress business casual.  
-- Walk through each tab in order, highlighting interactivity and insights.
+## Running the App
+```
+shinyApp(ui, server)
+```
+## Click the link below to visit the interactive shiny app 
 
+https://kritanshrestha.shinyapps.io/final/
